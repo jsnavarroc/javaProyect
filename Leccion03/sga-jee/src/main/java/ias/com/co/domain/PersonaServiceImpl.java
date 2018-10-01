@@ -1,39 +1,47 @@
 package ias.com.co.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import ias.com.co.domain.Persona;
+import ias.com.co.eis.PersonaDao;
+import java.util.ArrayList;
 import ias.com.co.servicio.PersonaServiceRemote;
 import ias.com.co.servicio.PersonaService;
 
 @Stateless 
 public class PersonaServiceImpl implements PersonaServiceRemote, PersonaService {
     
-    @Override
-    public List<Persona> listarPersonas() {
-        List<Persona> personas = new ArrayList<>();
-        personas.add(new Persona(1, "Juan", "Perez", "Suarez", "jperez@gmail.com", "55668798"));
-        personas.add(new Persona(2, "Martha", "Suarez", "Jimenez", "msuarez@mail.com", "566998811"));
-        return personas;
-    }
+	@Inject//Se puede utilizar tbn @EJB. La @Inject tiene compativilidad con navegadores  mas antiguos
+	private PersonaDao personaDao;
 
-    @Override
-    public Persona encontrarPersonaPorId(Persona persona) {
-        return null;
-    }
+        @Override
+	public List<Persona> listarPersonas() {
+		return personaDao.findAllPersonas();
+	}
 
-    @Override
-    public Persona encontrarPersonaPorEmail(Persona persona) {
-        return null;
-    }
+        @Override
+	public Persona encontrarPersonaPorId(Persona persona) {
+		return personaDao.findPersonaById(persona);
+	}
 
-    @Override
-    public void registrarPersona(Persona persona) {}
+        @Override
+	public Persona encontrarPersonaPorEmail(Persona persona) {
+		return personaDao.findPersonaByEmail(persona);
+	}
 
-    @Override
-    public void modificarPersona(Persona persona) {}
+        @Override
+	public void registrarPersona(Persona persona) {
+		personaDao.insertPersona(persona);
+	}
 
-    @Override
-    public void eliminarPersona(Persona persona) {}
+        @Override
+	public void modificarPersona(Persona persona) {
+		personaDao.updatePersona(persona);
+	}
+
+        @Override
+	public void eliminarPersona(Persona persona) {
+		personaDao.deletePersona(persona);
+	}
 }

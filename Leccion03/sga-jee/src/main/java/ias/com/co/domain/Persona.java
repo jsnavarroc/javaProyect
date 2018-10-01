@@ -1,24 +1,50 @@
 package ias.com.co.domain;
+
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
-
+@Entity
+@NamedQueries({
+    @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p ORDER BY p.idPersona")})
+@Table(name = "persona")
 public class Persona implements Serializable {
-    
-    
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_persona")
     private int idPersona;
+
+    @Column(nullable = false, length = 45)
     private String nombre;
+
+    @Column(name = "apellido_paterno", nullable = false, length = 45)
     private String apePaterno;
+
+    @Column(name = "apellido_materno", length = 45)
     private String apeMaterno;
+
+    @Column(nullable = false, length = 45)
     private String email;
+
+    @Column(length = 45)
     private String telefono;
 
     public Persona() {
     }
 
-    public Persona(int idPersona, String nombre, String apePaterno,
-            String apeMaterno, String email, String telefono) {
-        super();
+    public Persona(int idPersona) {
+        this.idPersona = idPersona;
+    }
+
+    public Persona(int idPersona, String nombre, String apePaterno, String apeMaterno, String email, String telefono) {
         this.idPersona = idPersona;
         this.nombre = nombre;
         this.apePaterno = apePaterno;
@@ -77,9 +103,7 @@ public class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "Persona [idPersona=" + idPersona + ", nombre=" + nombre
-                + ", apePaterno=" + apePaterno + ", apeMaterno=" + apeMaterno
-                + ", email=" + email + ", telefono=" + telefono + "]";
+        return "Persona{" + "idPersona=" + idPersona + ", nombre=" + nombre + ", apePaterno=" + apePaterno + ", apeMaterno=" + apeMaterno + ", email=" + email + ", telefono=" + telefono + '}';
     }
     
 }
